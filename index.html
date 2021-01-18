@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>Interval Workout Timer</title>
+</head>
+<body>
+    <h1 class="pageTitle">Interval Training Timer</h1>
+
+    <ul class="timerLegend">
+        <li style="color:black">Black = Work out!</li>
+        <li style="color:red">Red = Rest!</li>
+    </ul>
+
+    <div id="timerClock">
+        <!-- filled in programmically via javascript -->
+    </div>
+
+    <div id="timerSchedule">
+        <!-- filled in programmically via javascript -->
+    </div>
+
+    <div id="timerAdder">
+        <h5>Warning: Editing the timer schedule resets the running timer!</h5>
+        <form id="timerAdderForm">
+            <input id="timerAdder-totalSeconds" type="number" value="60"> Max = 86400 seconds or 24 hours
+            <br><br>
+            
+            <input type="radio" name="workoutType" value="Workout" checked>Workout</input>
+            <input type="radio" name="workoutType" value="Rest">Rest</input>
+            
+            <br><br>
+            <button type="submit">Add Timer!</button>
+        </form>
+    </div>
+
+    <div id="beepControl">
+        <button id="beepButton">Beep On</button>
+        <button id="repeatButton">Repeat Timers On</button>
+    </div>
+
+    <script src="beep.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
