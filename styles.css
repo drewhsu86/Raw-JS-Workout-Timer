@@ -72,3 +72,19 @@ ul {
     margin: 10px auto;
     padding: 20px;
 }
+
+#storedSchedules {
+    border: 1px solid black;
+    padding: 20px;
+}
+
+#storedSchList button {
+    background-color: darkcyan;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border: 5px solid darkcyan;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px;
+}

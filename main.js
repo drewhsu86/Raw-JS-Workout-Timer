@@ -280,3 +280,87 @@ function repeatToggle() {
 
 beepButton.addEventListener('click', beepToggle)
 repeatButton.addEventListener('click', repeatToggle)
+
+// stored schedules div 
+const storedSchedules = document.querySelector('#storedSchedules')
+const storeThisSchedule = document.querySelector('#storeThisSchedule')
+const storedSchList = document.querySelector('#storedSchList')
+storeThisSchedule.addEventListener('click', storeSchedule)
+displaySchedules()
+
+// store current schedule to array then to local storage 
+function storeSchedule() {
+    console.log('store schedules')
+    // grab the ONE, current schedule
+    const currSchedule = timerSchArray 
+    console.log('Storing: ', currSchedule)
+
+    // try to grab the current storage array 
+    const currStoredStr = localStorage.getItem('interval-workout-schedules') 
+    const currStored = JSON.parse(currStoredStr)
+
+    let newStored = []
+
+    if (currStored) {
+        // storage is not empty
+        newStored = currStored
+    }
+    
+    if (currSchedule.length > 0) newStored.push(currSchedule)
+    localStorage.setItem('interval-workout-schedules', JSON.stringify(newStored))
+
+    displaySchedules()
+}
+
+function displaySchedules() {
+    console.log('display schedules')
+    // reset list area 
+    storedSchList.innerHTML = ''
+
+    // load all from local storage and display
+    const currStoredStr = localStorage.getItem('interval-workout-schedules') 
+    const currStored = JSON.parse(currStoredStr)
+
+    for (schInd in currStored) {
+        // make an element that has the schedule info, and a delete button 
+        const singleSch = document.createElement('div')
+        singleSch.setAttribute('class', 'singleSchedule')
+
+        for (timerInd in currStored[schInd]) {
+            const timer = currStored[schInd][timerInd]
+            const newTimer = document.createElement('span')
+            newTimer.innerText = timer.totalSeconds + ' secs to ' + timer.workoutType + '; '
+            newTimer.setAttribute('style', timer.workoutType !== 'Rest' ? 'color: black' : 'color: red')
+            singleSch.appendChild(newTimer)    
+        } // end of for loop over timers of one schedule 
+
+        // load schedule to timerSchArray 
+        const loadButton = document.createElement('button')
+        loadButton.innerText = 'Load'
+        singleSch.appendChild(loadButton)
+        loadButton.addEventListener('click', () => {
+            timerSchArray = currStored[schInd].slice()
+            renderSchedule()
+        })
+
+        // delete button
+        const delButton = document.createElement('button')
+        delButton.innerText = 'Delete'
+        delButton.setAttribute('value', schInd)
+        singleSch.appendChild(delButton)
+        delButton.addEventListener('click', e => {
+            const delInd = e.target.value 
+            // load in current array (whenever button is pressed)
+            const currStoredStr = localStorage.getItem('interval-workout-schedules') 
+            const currStored = JSON.parse(currStoredStr)
+            console.log('Deleting index: ', delInd)
+            // delete based on index schInd
+            currStored.splice(delInd,1)
+            localStorage.setItem('interval-workout-schedules', JSON.stringify(currStored))
+            displaySchedules()
+        })
+
+        storedSchList.appendChild(singleSch)
+    } // end of for loop over all schedules
+    // no setItem at the end of display because no change (delButton has a callback)
+}
